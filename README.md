@@ -18,12 +18,18 @@ This is an example of a drawer animation using [react-navigation](https://reactn
 ```
 NavigationContainer
 └── RootDrawer (DrawerNavigator w/ custom view)
-    ├── StartTabs (TabNavigator)
+    ├── StartTabs (BottomTabNavigator)
     │   ├── HomeStack (StackNavigator)
+    │   │   ├── Screen1 (Screen)
+    │   │   └── Screen2 (Screen)
     │   └── ContactsStack (StackNavigator)
+    │       └── Contacts (Screen)
     ├── YourCartStack (StackNavigator)
+    │   └── Your Cart (Screen)
     ├── FavouritesStack (StackNavigator)
+    │   └── Favourites (Screen)
     └── YourOrdersStack (StackNavigator)
+        └── Your Orders (Screen)
 ```
 
 ### Custom drawer view
