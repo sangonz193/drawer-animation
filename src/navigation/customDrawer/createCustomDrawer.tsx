@@ -10,6 +10,7 @@ import {
 import { useEffect } from "react";
 import { LayoutRectangle, StyleSheet, View } from "react-native";
 import Animated, {
+  Easing,
   Extrapolate,
   Extrapolation,
   interpolate,
@@ -31,15 +32,17 @@ function CustomDrawer(
     ReturnType<typeof createDrawerNavigator>["Navigator"]
   >
 ) {
-  const { state, descriptors, NavigationContent } =
-    useNavigationBuilder(DrawerRouter, {
+  const { state, descriptors, NavigationContent } = useNavigationBuilder(
+    DrawerRouter,
+    {
       children: props.children,
       screenOptions: props.screenOptions,
       backBehavior: props.backBehavior,
       defaultStatus: props.defaultStatus,
       id: props.id,
       initialRouteName: props.initialRouteName,
-    });
+    }
+  );
 
   const [screenLayout, onScreenLayout] = useOnLayout();
   const insets = useSafeAreaInsets();
@@ -113,13 +116,9 @@ function useScreensWrapperStyle(
   return useAnimatedStyle(() => {
     if (!drawerProgress) return {};
 
-    const borderRadius = interpolate(drawerProgress.value, [0, 1], [0, 40], {
-      extrapolateRight: Extrapolation.CLAMP,
-    });
+    const borderRadius = interpolate(drawerProgress.value, [0, 1], [0, 40]);
 
-    const rotate = interpolate(drawerProgress.value, [0, 1], [0, -10], {
-      extrapolateRight: Extrapolation.CLAMP,
-    });
+    const rotate = interpolate(drawerProgress.value, [0, 1], [0, -10]);
 
     const transformOriginTranslates = {
       y: -(screenLayout?.height ?? 0) / 2,
@@ -129,15 +128,10 @@ function useScreensWrapperStyle(
     const translateX = interpolate(
       drawerProgress.value,
       [0, 1],
-      [0, screenLayout?.width ? screenLayout.width / 2 : 300],
-      {
-        extrapolateRight: Extrapolation.CLAMP,
-      }
+      [0, screenLayout?.width ? screenLayout.width / 2 : 300]
     );
 
-    const translateY = interpolate(drawerProgress.value, [0, 1], [0, 150], {
-      extrapolateRight: Extrapolation.CLAMP,
-    });
+    const translateY = interpolate(drawerProgress.value, [0, 1], [0, 150]);
 
     return {
       borderRadius,
@@ -158,11 +152,11 @@ function useDrawerProgress(isOpen: boolean) {
 
   useEffect(() => {
     if (!drawerProgress) return;
-    if (isOpen) {
-      drawerProgress.value = withTiming(1, { duration: 500 });
-    } else {
-      drawerProgress.value = withTiming(0, { duration: 500 });
-    }
+
+    drawerProgress.value = withTiming(isOpen ? 1 : 0, {
+      duration: 700,
+      easing: Easing.bezier(0.22, 1, 0.36, 1),
+    });
   }, [isOpen, drawerProgress]);
 
   return drawerProgress;
