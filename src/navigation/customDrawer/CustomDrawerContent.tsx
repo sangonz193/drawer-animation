@@ -1,9 +1,4 @@
-import {
-  DrawerActions,
-  DrawerNavigationState,
-  useNavigation,
-  useNavigationState,
-} from "@react-navigation/core";
+import { DrawerActions, DrawerNavigationState, useNavigation, useNavigationState } from "@react-navigation/core";
 import { NavigationProp } from "@react-navigation/native";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -22,8 +17,7 @@ const items = [
   {
     key: "StartTabs",
     label: "Start",
-    handler: (navigation) =>
-      navigation.navigate("StartTabs", { screen: "HomeStack" }),
+    handler: (navigation) => navigation.navigate("StartTabs", { screen: "HomeStack" }),
   },
   {
     key: "YourCartStack",
@@ -75,10 +69,7 @@ export function CustomDrawerContent() {
 
         <View style={styles.bottomLine} />
 
-        <CustomDrawerItem
-          label="Sign Out"
-          onPress={() => navigation.dispatch(DrawerActions.closeDrawer())}
-        />
+        <CustomDrawerItem label="Sign Out" onPress={() => navigation.dispatch(DrawerActions.closeDrawer())} />
       </View>
 
       <View
@@ -129,7 +120,7 @@ function useSelectedItem() {
       if (item.type !== "route") continue;
 
       const { key } = item;
-      const route = state.routes.find((route) => route.key === key);
+      const route = state.routes.find((r) => r.key === key);
 
       if (route) {
         return route.name as keyof RootDrawerParamList;

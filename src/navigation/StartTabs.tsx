@@ -18,16 +18,8 @@ export function StartTabs() {
         tabBarLabelStyle: { textTransform: "uppercase" },
       }}
     >
-      <BottomTabs.Screen
-        name="HomeStack"
-        component={HomeStack}
-        options={{ tabBarLabel: "Home" }}
-      />
-      <BottomTabs.Screen
-        name="ContactsStack"
-        component={ContactsStack}
-        options={{ tabBarLabel: "Contacts" }}
-      />
+      <BottomTabs.Screen name="HomeStack" component={HomeStack} options={{ tabBarLabel: "Home" }} />
+      <BottomTabs.Screen name="ContactsStack" component={ContactsStack} options={{ tabBarLabel: "Contacts" }} />
     </BottomTabs.Navigator>
   );
 }

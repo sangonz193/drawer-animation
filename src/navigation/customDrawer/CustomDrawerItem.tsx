@@ -18,13 +18,8 @@ export function CustomDrawerItem(props: CustomDrawerItemProps) {
   };
 
   return (
-    <TouchableOpacity
-      style={[styles.container, selected && styles.containerSelected]}
-      onPress={handlePress}
-    >
-      <Text style={[styles.text, selected && styles.textSelected]}>
-        {label}
-      </Text>
+    <TouchableOpacity style={[styles.container, selected && styles.containerSelected]} onPress={handlePress}>
+      <Text style={[styles.text, selected && styles.textSelected]}>{label}</Text>
     </TouchableOpacity>
   );
 }

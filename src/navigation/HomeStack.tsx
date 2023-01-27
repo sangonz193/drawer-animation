@@ -12,9 +12,7 @@ const Stack = createStackNavigator<HomeStackParamList>();
 
 export function HomeStack() {
   return (
-    <Stack.Navigator
-      screenOptions={{ ...commonRootDrawerScreenOptions, title: "Start" }}
-    >
+    <Stack.Navigator screenOptions={{ ...commonRootDrawerScreenOptions, title: "Start" }}>
       <Stack.Screen name="Screen1" component={Screen1} />
       <Stack.Screen name="Screen2" component={Screen2} />
     </Stack.Navigator>

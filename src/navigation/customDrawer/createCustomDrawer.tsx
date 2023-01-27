@@ -1,12 +1,5 @@
-import {
-  createNavigatorFactory,
-  DrawerRouter,
-  useNavigationBuilder,
-} from "@react-navigation/core";
-import {
-  createDrawerNavigator,
-  getDrawerStatusFromState,
-} from "@react-navigation/drawer";
+import { createNavigatorFactory, DrawerRouter, useNavigationBuilder } from "@react-navigation/core";
+import { createDrawerNavigator, getDrawerStatusFromState } from "@react-navigation/drawer";
 import { useEffect } from "react";
 import { LayoutRectangle, StyleSheet, View } from "react-native";
 import Animated, {
@@ -19,30 +12,20 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-import {
-  SafeAreaProvider,
-  useSafeAreaInsets,
-} from "react-native-safe-area-context";
+import { SafeAreaProvider, useSafeAreaInsets } from "react-native-safe-area-context";
 import { useOnLayout } from "../../common/useOnLayout";
 import { CustomDrawerContent } from "./CustomDrawerContent";
 import { useOpenDrawerYOffset } from "./useOpenDrawerYOffset";
 
-function CustomDrawer(
-  props: React.ComponentProps<
-    ReturnType<typeof createDrawerNavigator>["Navigator"]
-  >
-) {
-  const { state, descriptors, NavigationContent } = useNavigationBuilder(
-    DrawerRouter,
-    {
-      children: props.children,
-      screenOptions: props.screenOptions,
-      backBehavior: props.backBehavior,
-      defaultStatus: props.defaultStatus,
-      id: props.id,
-      initialRouteName: props.initialRouteName,
-    }
-  );
+function CustomDrawer(props: React.ComponentProps<ReturnType<typeof createDrawerNavigator>["Navigator"]>) {
+  const { state, descriptors, NavigationContent } = useNavigationBuilder(DrawerRouter, {
+    children: props.children,
+    screenOptions: props.screenOptions,
+    backBehavior: props.backBehavior,
+    defaultStatus: props.defaultStatus,
+    id: props.id,
+    initialRouteName: props.initialRouteName,
+  });
 
   const [screenLayout, onScreenLayout] = useOnLayout();
   const insets = useSafeAreaInsets();
@@ -50,53 +33,31 @@ function CustomDrawer(
   const isOpen = getDrawerStatusFromState(state) === "open";
   const drawerProgress = useDrawerProgress(isOpen);
 
-  const screensWrapperStyle = useScreensWrapperStyle(
-    drawerProgress,
-    screenLayout
-  );
+  const screensWrapperStyle = useScreensWrapperStyle(drawerProgress, screenLayout);
 
   const openDrawerYOffset = useOpenDrawerYOffset();
-  const drawerWrapperStyle = useDrawerWrapperStyle(
-    drawerProgress,
-    openDrawerYOffset
-  );
+  const drawerWrapperStyle = useDrawerWrapperStyle(drawerProgress, openDrawerYOffset);
 
   const statusBarPaddingStyle = useAnimatedStyle(() => {
     return {
       backgroundColor: "white",
-      height: interpolate(
-        drawerProgress.value,
-        [0, 1],
-        [insets.top, 20],
-        Extrapolate.CLAMP
-      ),
+      height: interpolate(drawerProgress.value, [0, 1], [insets.top, 20], Extrapolate.CLAMP),
     };
   });
 
   return (
     <NavigationContent>
-      <Animated.View
-        style={[StyleSheet.absoluteFillObject, drawerWrapperStyle]}
-      >
+      <Animated.View style={[StyleSheet.absoluteFillObject, drawerWrapperStyle]}>
         <CustomDrawerContent />
       </Animated.View>
 
-      <Animated.View
-        style={[StyleSheet.absoluteFillObject, screensWrapperStyle]}
-        onLayout={onScreenLayout}
-      >
+      <Animated.View style={[StyleSheet.absoluteFillObject, screensWrapperStyle]} onLayout={onScreenLayout}>
         <Animated.View style={statusBarPaddingStyle} />
 
         <SafeAreaProvider>
           {state.routes.map((route, i) => {
             return (
-              <View
-                key={route.key}
-                style={[
-                  StyleSheet.absoluteFill,
-                  { display: i === state.index ? "flex" : "none" },
-                ]}
-              >
+              <View key={route.key} style={[StyleSheet.absoluteFill, i !== state.index && styles.displayNone]}>
                 {descriptors[route.key].render()}
               </View>
             );
@@ -107,12 +68,15 @@ function CustomDrawer(
   );
 }
 
+const styles = StyleSheet.create({
+  displayNone: {
+    display: "none",
+  },
+});
+
 export const createCustomDrawer = createNavigatorFactory(CustomDrawer);
 
-function useScreensWrapperStyle(
-  drawerProgress: SharedValue<number>,
-  screenLayout: LayoutRectangle | null
-) {
+function useScreensWrapperStyle(drawerProgress: SharedValue<number>, screenLayout: LayoutRectangle | null) {
   return useAnimatedStyle(() => {
     if (!drawerProgress) return {};
 
@@ -162,10 +126,7 @@ function useDrawerProgress(isOpen: boolean) {
   return drawerProgress;
 }
 
-function useDrawerWrapperStyle(
-  drawerProgress: SharedValue<number>,
-  openDrawerYOffset: number
-) {
+function useDrawerWrapperStyle(drawerProgress: SharedValue<number>, openDrawerYOffset: number) {
   return useAnimatedStyle(() => {
     if (!drawerProgress) return {};
 
@@ -173,12 +134,7 @@ function useDrawerWrapperStyle(
       extrapolateRight: Extrapolation.CLAMP,
     });
 
-    const translateY = interpolate(
-      drawerProgress.value,
-      [0, 1],
-      [0, openDrawerYOffset],
-      Extrapolate.CLAMP
-    );
+    const translateY = interpolate(drawerProgress.value, [0, 1], [0, openDrawerYOffset], Extrapolate.CLAMP);
 
     return {
       backgroundColor: "rgb(28,20,40)",

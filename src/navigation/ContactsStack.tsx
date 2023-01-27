@@ -10,10 +10,8 @@ const Stack = createStackNavigator<ContactsStackParamList>();
 
 export function ContactsStack() {
   return (
-    <Stack.Navigator
-      screenOptions={commonRootDrawerScreenOptions}
-    >
-      <Stack.Screen name="Contacts" component={Contacts} options={{headerTitle: "Contacts"}} />
+    <Stack.Navigator screenOptions={commonRootDrawerScreenOptions}>
+      <Stack.Screen name="Contacts" component={Contacts} options={{ headerTitle: "Contacts" }} />
     </Stack.Navigator>
   );
 }
