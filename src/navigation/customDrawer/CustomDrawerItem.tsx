@@ -1,19 +1,26 @@
 import { DrawerActions, useNavigation } from "@react-navigation/native";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 
-export function CustomDrawerItem(props: { label: string; selected?: boolean }) {
-  const { label, selected } = props;
+export type CustomDrawerItemProps = {
+  label: string;
+  selected?: boolean;
+  onPress?: () => void;
+};
+
+export function CustomDrawerItem(props: CustomDrawerItemProps) {
+  const { label, selected, onPress } = props;
 
   const navigation = useNavigation();
 
-  const closeDrawer = () => {
-    navigation.dispatch(DrawerActions.closeDrawer());
+  const handlePress = () => {
+    if (selected) navigation.dispatch(DrawerActions.closeDrawer());
+    else onPress?.();
   };
 
   return (
     <TouchableOpacity
       style={[styles.container, selected && styles.containerSelected]}
-      onPress={closeDrawer}
+      onPress={handlePress}
     >
       <Text style={[styles.text, selected && styles.textSelected]}>
         {label}
