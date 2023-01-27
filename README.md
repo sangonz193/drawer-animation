@@ -4,7 +4,7 @@ This is an example of a drawer animation using [react-navigation](https://reactn
 
 ## Demo
 
-![demo](./docs/demo.gif)
+<img src="./docs/demo.gif" width=300 />
 
 ## Run the project
 
